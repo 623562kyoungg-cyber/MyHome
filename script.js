@@ -56,28 +56,18 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     document.head.appendChild(style);
 
-    // 5. Scroll Reveal for Project Steps
-    const observerOptions = {
-        threshold: 0.5
-    };
-
-    const observer = new IntersectionObserver((entries) => {
+    // 5. Scroll Reveal for Project Cards
+    const projectObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                const steps = entry.target.querySelectorAll('.step');
-                steps.forEach((step, index) => {
-                    setTimeout(() => {
-                        step.classList.add('visible');
-                    }, index * 300);
-                });
+                entry.target.classList.add('reveal');
             }
         });
-    }, observerOptions);
+    }, { threshold: 0.1 });
 
-    const projectBoard = document.querySelector('.project-board');
-    if (projectBoard) {
-        observer.observe(projectBoard);
-    }
+    document.querySelectorAll('.project-card').forEach(card => {
+        projectObserver.observe(card);
+    });
 
     // 6. Tilt Effect for Cards
     const cards = document.querySelectorAll('.strength-card');
